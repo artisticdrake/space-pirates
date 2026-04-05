@@ -1,0 +1,67 @@
+
+
+
+
+
+
+
+Profile 
+CyberPunk rebel main character 
+Female main character 
+Digital AI software assistant hologram
+Female captain of rebels 
+
+AI Robot, secret police for the empire
+AI Robot, empire clerk who works for the emperor 
+AI robot, emperor. 
+
+Backgrounds 
+Rebel base in space, scrappy but big with a lot of features
+Large space station of AI empire, state of the art, evil vibe 
+
+
+Here is rough draft of a story line for the game, help me write a script and then tell me what different backgrounds and character profiles i need to create for cut scenes.
+
+Lore:
+
+AI went rogue and decided that humans are too dangerous and know where is a war in space between humans and AI
+
+
+Cut Scenes:
+1.
+Escape AI spaceships after malicious software revealed your location (Lesson: Cybersecurity)
+
+MC is trying to upgrade his ships software system, he talks to his ai assistant, when he downloaded the software, his AI assistant starts lagging he understands something is not right, he notices enemy ships. Empire fighter contacts MC and says prepare to die. 
+
+Game starts its a race
+
+When the player wins a race another cut scene. MC is talking to captain where she explains the cybersecurity concept that you have to check open source projects before downloading if they have malware. 
+
+2. 
+Coop - Attack AI cargo spaceship, to destroy sensitive data (Lesson: value of data)
+
+Captain calls MC AND female that there is information that an empires cargo ship with sensitive data is going to pass tomorrow and you want to destory, because Emprie use this data to predict human behaviour which helps hunt down human. 
+
+Game starts, when players destroys the cargo ship, new cut scene begins. 
+
+Cargo plain explosion shown, captain says that that everyone should ran and meet later together. 
+
+3. 
+
+Main character and Female main character are running away from cargo explosion they have a fun conversation about how amazing that they destroyed the cargo ship. FMC starts feeling bad, apparently AI got her possessed and she starts attacking MC. MC wants to escape but ship assistant convieces him that he has to kill her even if he escapes AI empire will capture her toruture and she will give up all of the information about rebels. 
+
+PvP game starts 
+
+When MC kills FMC, new cut scene starts where MC crying and upset that he had no other choice but to destroy her. 
+
+
+GameModes:
+Player escapes AI bots in a races 
+Multiplayer fight against AI bots main objective is to destory big AI cargo ship
+PvP one player against another. 
+
+
+
+
+
+

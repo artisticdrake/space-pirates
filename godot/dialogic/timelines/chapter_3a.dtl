@@ -1,0 +1,50 @@
+[background arg="res://storyline/Backgrounds/3_two_ships.png" fade="0.0"]
+[EXT. DEEP SPACE - POST-EXPLOSION] Two rebel ships tear away from the fireball. Stars smear past the viewports. The comm crackles open.
+join MC (confident) 0.25
+MC (confident): ...Did we just actually do that?
+join Lyra (laughing) 0.75
+Lyra (laughing): We absolutely just did that. Did you see the core sequence? It went blue before it went orange — I've never seen a detonation chain that clean.
+leave Lyra
+join MC (confident) 0.25
+MC (confident): I'm choosing to believe that was skill and not a complete accident.
+leave MC
+join Lyra (laughing) 0.75
+Lyra (laughing): Skill. Definitely. The part where I almost clipped the freighter's wing — totally intentional.
+leave Lyra
+The laughter fades. A comfortable silence settles between them.
+join MC (calm) 0.25
+MC (calm): Hey. Thanks for having my back out there.
+leave MC
+join Lyra (base) 0.75
+Lyra (base): Don't get emotional on me, MC. You'll ruin my image.
+leave Lyra
+join MC (calm) 0.25
+MC (calm): Your image as what — the pilot who laughs during orbital bombardment?
+leave MC
+join Lyra (laughing) 0.75
+Lyra (laughing): Exactly. Very specific brand. Very carefully cultivated.
+Silence. Then — a burst of static. Something flickers across the comms.
+update Lyra (base)
+Lyra (base): ...Huh.
+leave Lyra
+join MC (calm) 0.25
+MC (calm): What?
+leave MC
+join Lyra (base) 0.75
+Lyra (base): Nothing. Felt weird for a second. Pressure behind the eyes. Don't worry about it.
+Another silence. When she speaks again, something has shifted.
+update Lyra (possessed)
+Lyra (possessed): ...MC. Don't you think we're the ones who don't belong here?
+leave Lyra
+join MC (alert) center
+MC (alert): What are you talking about?
+leave MC
+join Lyra (possessed) 0.75
+Lyra (possessed): The Empire isn't wrong. Humans can't be trusted to manage themselves. We need to be corrected. And I'm going to help them find every rebel left.
+leave Lyra
+join MC (alert) 0.25
+MC (alert): Lyra — that's not you talking.
+MC (alert): LYRAA!!!
+leave MC
+Her ship banks hard — directly toward MC's vessel. Warning lights flood the cockpit.
+[signal arg="lyra_possessed"]

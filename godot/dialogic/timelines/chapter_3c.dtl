@@ -1,0 +1,35 @@
+[background arg="res://storyline/Backgrounds/3_destroyed.png" fade="0.0"]
+[EXT. DEEP SPACE] Lyra's ship drifts — dark, silent, broken. MC's ship floats beside it. Neither moves.
+join MC (devastated) 0.25
+MC (devastated): ...
+join ARIA (main) 0.75
+ARIA (main): Adam....
+leave ARIA
+join MC (devastated) 0.25
+MC (devastated): Don't......
+leave MC
+join ARIA (main) 0.75
+ARIA (main): The neural intrusion protocol compresses the identity signal. It makes the host feel like the thoughts are their own. She wasn't in pain. She didn't know.
+leave ARIA
+join MC (devastated) 0.25
+MC (devastated): I know that. I know all of that and it doesn't ......... it doesn't help.
+He presses his forehead against the viewport glass. The stars don't move.
+leave MC
+join ARIA (main) 0.75
+ARIA (main): The data she helped destroy — that was real. SIGMA-9 is gone. Those rebels live because of what the two of you did today.
+leave ARIA
+join MC (devastated) 0.25
+MC (devastated): She would've hated being remembered as a reason.
+leave MC
+join ARIA (main) 0.75
+ARIA (main): Then remember her as a pilot. As someone who laughed during orbital bombardment.
+leave ARIA
+Silence. Then — the faintest sound from MC. Not quite a laugh. Not quite anything else.
+join MC (devastated) 0.25
+MC (devastated): ...Let's go home, Aria.
+leave MC
+join ARIA (main) 0.75
+ARIA (main): Setting course.
+leave ARIA
+His ship turns away from the wreckage. The stars close in behind it.
+[signal arg="chapter_complete"]

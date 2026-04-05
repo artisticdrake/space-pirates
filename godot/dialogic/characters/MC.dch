@@ -1,0 +1,50 @@
+{
+"@path": "res://addons/dialogic/Resources/character.gd",
+"@subpath": NodePath(""),
+&"_translation_id": "",
+&"color": Color(0.2, 0.8, 1, 1),
+&"custom_info": {
+"prefix": "",
+"sound_mood_default": "",
+"sound_moods": {},
+"style": "",
+"suffix": ""
+},
+&"default_portrait": "calm",
+&"description": "",
+&"display_name": "Adam",
+&"mirror": false,
+&"nicknames": [""],
+&"offset": Vector2(0, 0),
+&"portraits": {
+"alert": {
+"export_overrides": {
+"image": "res://storyline/Profile/MC/mc_1a_alert.png"
+},
+"offset": Vector2(0, 0),
+"scene": ""
+},
+"calm": {
+"export_overrides": {
+"image": "res://storyline/Profile/MC/mc_1a_calm.png"
+},
+"offset": Vector2(0, 0),
+"scene": ""
+},
+"confident": {
+"export_overrides": {
+"image": "res://storyline/Profile/MC/mc_1a_confident.png"
+},
+"offset": Vector2(0, 0),
+"scene": ""
+},
+"devastated": {
+"export_overrides": {
+"image": "res://storyline/Profile/MC/mc_3c_devastated.png"
+},
+"offset": Vector2(0, 0),
+"scene": ""
+}
+},
+&"scale": 1.0
+}

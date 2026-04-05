@@ -1,0 +1,43 @@
+{
+"@path": "res://addons/dialogic/Resources/character.gd",
+"@subpath": NodePath(""),
+&"_translation_id": "",
+&"color": Color(0.4, 1, 0.8, 1),
+&"custom_info": {
+"prefix": "",
+"sound_mood_default": "",
+"sound_moods": {},
+"style": "",
+"suffix": ""
+},
+&"default_portrait": "main",
+&"description": "",
+&"display_name": "ARIA",
+&"mirror": false,
+&"nicknames": [""],
+&"offset": Vector2(0, 0),
+&"portraits": {
+"glitch": {
+"export_overrides": {
+"image": "res://storyline/Profile/Assistant/assistant_glitch.png"
+},
+"offset": Vector2(0, 0),
+"scene": ""
+},
+"main": {
+"export_overrides": {
+"image": "res://storyline/Profile/Assistant/assistant_main.png"
+},
+"offset": Vector2(0, 0),
+"scene": ""
+},
+"urgent": {
+"export_overrides": {
+"image": "res://storyline/Profile/Assistant/assistant_urgent.png"
+},
+"offset": Vector2(0, 0),
+"scene": ""
+}
+},
+&"scale": 1.0
+}

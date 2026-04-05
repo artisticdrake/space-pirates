@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm init:*)",
+      "Bash(npm install:*)",
+      "Bash(timeout 4 node server.js)",
+      "Bash(node -e \"const s = require\\('selfsigned'\\); console.log\\(typeof s, typeof s.generate, Object.keys\\(s\\)\\)\")",
+      "Bash(node -e ':*)",
+      "Bash(timeout 5 node server.js)",
+      "Bash(node server.js)",
+      "Bash(grep -E \"\\\\.\\(glb|obj\\)$\")",
+      "WebSearch",
+      "Bash(cp:*)",
+      "Bash(cp \"C:/Users/prath/OneDrive/Desktop/space-pirates/MOTHERSHIP/\"* \"C:/Users/prath/OneDrive/Desktop/space-pirates/godot/assets/mothership/\")",
+      "Bash(cp \"C:/Users/prath/OneDrive/Desktop/space-pirates/MINIONS/\"* \"C:/Users/prath/OneDrive/Desktop/space-pirates/godot/assets/minion/\")",
+      "Bash(python3 -c ':*)",
+      "Bash(python -c ':*)"
+    ]
+  }
+}

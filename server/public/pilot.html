@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>Space Pirates</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 100%; height: 100%;
+    overflow: hidden;
+    background: #050510;
+    touch-action: none;
+  }
+
+  /*
+   * Rotate the entire app CCW 90°.
+   * Phone stays portrait; the UI appears landscape.
+   * width/height are swapped so the rotated element fills the screen.
+   */
+  #app {
+    position: fixed;
+    top: 50dvh;
+    left: 50dvw;
+    width: 100dvh;   /* landscape width = portrait height */
+    height: 100dvw;  /* landscape height = portrait width  */
+    transform: translate(-50%, -50%) rotate(-90deg);
+    overflow: hidden;
+    background: #050510;
+    color: #fff;
+    font-family: 'Arial', sans-serif;
+    touch-action: none;
+  }
+
+  /* ── Screens ── */
+  .screen {
+    display: none;
+    width: 100%; height: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    text-align: center;
+    gap: 16px;
+  }
+  .screen.active { display: flex; }
+
+  h1 { font-size: 2rem; letter-spacing: .15em; text-transform: uppercase; }
+  h2 { font-size: 1.3rem; letter-spacing: .1em; }
+  p  { font-size: .9rem; opacity: .75; line-height: 1.6; }
+
+  .btn {
+    background: #fff;
+    color: #050510;
+    border: none;
+    border-radius: 12px;
+    padding: 13px 32px;
+    font-size: .95rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    cursor: pointer;
+    text-transform: uppercase;
+    width: 100%;
+    max-width: 260px;
+    transition: opacity .15s;
+  }
+  .btn:active   { opacity: .8; }
+  .btn:disabled { opacity: .3; cursor: default; }
+
+  /* ── Connection badge (fixed inside #app) ── */
+  #connBadge {
+    position: absolute;
+    top: 6px; right: 10px;
+    font-size: .62rem;
+    letter-spacing: .06em;
+    opacity: .5;
+    z-index: 999;
+    pointer-events: none;
+  }
+  #connBadge.ok  { color: #39ff14; opacity: .8; }
+  #connBadge.err { color: #ff4444; opacity: .9; }
+
+  /* ── Dot animation ── */
+  .dot-anim::after {
+    content: '';
+    animation: dots 1.5s infinite;
+  }
+  @keyframes dots { 0%{content:'';} 33%{content:'.';} 66%{content:'..';} 100%{content:'...';} }
+
+  /* ── Ship Select ── */
+  .ships {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    width: 100%;
+    max-width: 520px;
+  }
+  .ship-card {
+    background: #0d0d2b;
+    border: 2px solid #333;
+    border-radius: 12px;
+    padding: 10px 8px;
+    cursor: pointer;
+    transition: border-color .15s, transform .1s;
+    text-align: center;
+  }
+  .ship-card:active   { transform: scale(.96); }
+  .ship-card.selected { border-color: var(--color, #fff); }
+  .ship-card .icon  { font-size: 1.4rem; margin-bottom: 4px; }
+  .ship-card .name  { font-size: .75rem; font-weight: 700; letter-spacing: .05em; margin-bottom: 2px; }
+  .ship-card .stats { font-size: .62rem; opacity: .6; line-height: 1.4; }
+
+  /* ── Gyro verify ── */
+  #gyroStatus { font-size: .85rem; opacity: .55; letter-spacing: .06em; }
+
+  /* ── Playing screen — landscape controller layout ── */
+  #screenPlay {
+    display: none;
+    flex-direction: column;
+    padding: 0; gap: 0;
+    position: relative;
+  }
+  #screenPlay.active { display: flex; }
+
+  #colorBg {
+    position: absolute;
+    inset: 0;
+    opacity: .08;
+    pointer-events: none;
+  }
+
+  /* Top strip: HP bar + ship label */
+  #playHeader {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 14px;
+    width: 100%;
+    background: rgba(255,255,255,.04);
+    border-bottom: 1px solid rgba(255,255,255,.1);
+    flex-shrink: 0;
+  }
+  #hpBar {
+    flex: 1;
+    height: 13px;
+    background: #1a1a2e;
+    border-radius: 7px;
+    overflow: hidden;
+    border: 1px solid #333;
+  }
+  #hpFill {
+    height: 100%;
+    width: 100%;
+    background: #39ff14;
+    border-radius: 7px;
+    transition: width .2s, background .3s;
+  }
+  #shipLabel {
+    font-size: .65rem;
+    opacity: .45;
+    letter-spacing: .08em;
+    white-space: nowrap;
+  }
+
+  /* 3-column controller area */
+  #playMain {
+    display: flex;
+    flex: 1;
+    width: 100%;
+    min-height: 0;
+  }
+
+  /* LEFT — Special ability */
+  #specialZone {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px;
+    border-right: 1px solid rgba(255,255,255,.08);
+  }
+  #burstBtn {
+    width: 100%;
+    height: 100%;
+    max-height: 100px;
+    background: transparent;
+    border: 2px solid rgba(255,255,255,.28);
+    color: #fff;
+    border-radius: 16px;
+    font-size: .8rem;
+    font-weight: 700;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    cursor: pointer;
+    line-height: 1.5;
+  }
+  #burstBtn:active { background: rgba(255,255,255,.08); }
+
+  /* CENTER — Tilt arrow */
+  #statusZone {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  #tiltArrow {
+    width: 48px; height: 48px;
+    transition: transform .05s linear;
+    opacity: .6;
+  }
+  #reverseBtn {
+    width: 80px;
+    height: 44px;
+    background: transparent;
+    border: 2px solid rgba(255, 80, 80, .45);
+    color: rgba(255, 80, 80, .85);
+    border-radius: 12px;
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background .08s, border-color .08s;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  #reverseBtn.held {
+    background: rgba(255, 60, 60, .18);
+    border-color: #ff3f3f;
+    color: #ff3f3f;
+  }
+
+  /* RIGHT — Fire zone */
+  #fireZone {
+    flex: 1.5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-left: 1px solid rgba(255,255,255,.08);
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  #fireRing {
+    width: 110px; height: 110px;
+    border-radius: 50%;
+    border: 3px solid rgba(255,255,255,.22);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .8rem;
+    letter-spacing: .06em;
+    opacity: .5;
+    text-align: center;
+    line-height: 1.4;
+    transition: border-color .1s, opacity .1s, background .1s;
+  }
+  #fireZone.firing #fireRing {
+    border-color: var(--color, #fff);
+    opacity: 1;
+    background: rgba(255,255,255,.06);
+  }
+
+  /* Dead overlay */
+  #deadOverlay {
+    display: none;
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,.8);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 14px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    z-index: 100;
+  }
+  #deadOverlay.show { display: flex; }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <div id="connBadge">connecting…</div>
+
+  <!-- Screen 1: Permission -->
+  <div class="screen active" id="screenPerm">
+    <h1>Space<br>Pirates</h1>
+    <p id="connMsg">Connecting to game server<span class="dot-anim"></span></p>
+    <button class="btn" id="permBtn" disabled>GRANT ACCESS</button>
+  </div>
+
+  <!-- Screen 2: Ship Select -->
+  <div class="screen" id="screenShip">
+    <h2>Pick Your Ship</h2>
+    <div class="ships" id="shipGrid"></div>
+    <button class="btn" id="confirmShipBtn" style="opacity:.4" disabled>CONFIRM</button>
+  </div>
+
+  <!-- Screen 3: Gyro verify -->
+  <div class="screen" id="screenGyro">
+    <h2>Calibrate Controls</h2>
+    <p>Hold your phone in your <strong>natural playing position</strong> and tilt it around until the arrow moves.<br>When you're comfortable, tap <strong>I'M READY</strong> — that position becomes your neutral.</p>
+
+    <svg id="verifyArrow" viewBox="0 0 60 60" fill="none"
+         style="width:70px;height:70px;transition:transform .05s linear;">
+      <polygon points="30,5 55,55 30,42 5,55" fill="white" opacity="0.7"/>
+    </svg>
+
+    <div id="gyroStatus">Move your phone to detect gyro…</div>
+    <button class="btn" id="readyBtn" disabled>I'M READY</button>
+  </div>
+
+  <!-- Screen 4: Waiting -->
+  <div class="screen" id="screenWait">
+    <h2>All hands on deck<span class="dot-anim"></span></h2>
+    <p>Waiting for the game to start</p>
+  </div>
+
+  <!-- Screen 5: Playing -->
+  <div class="screen" id="screenPlay">
+    <div id="colorBg"></div>
+
+    <!-- HP strip -->
+    <div id="playHeader">
+      <div id="hpBar"><div id="hpFill"></div></div>
+      <div id="shipLabel">CORSAIR · SLOT 1</div>
+    </div>
+
+    <!-- 3-column controller -->
+    <div id="playMain">
+
+      <!-- LEFT: Reverse -->
+      <div id="specialZone">
+        <button id="reverseBtn">REVERSE</button>
+      </div>
+
+      <!-- CENTER: tilt arrow + special -->
+      <div id="statusZone">
+        <svg id="tiltArrow" viewBox="0 0 60 60" fill="none">
+          <polygon points="30,5 55,55 30,42 5,55" fill="white" opacity="0.7"/>
+        </svg>
+        <button id="burstBtn">SPECIAL<br>ABILITY</button>
+      </div>
+
+      <!-- RIGHT: Fire -->
+      <div id="fireZone">
+        <div id="fireRing">HOLD<br>TO<br>FIRE</div>
+      </div>
+
+    </div>
+
+    <!-- Dead overlay -->
+    <div id="deadOverlay">
+      <div id="deadMsg">YOU ARE DEAD</div>
+      <div id="deadSub" style="font-size:.85rem;opacity:.5">Watch the screen...</div>
+      <button id="retryBtn" class="btn" style="max-width:200px;margin-top:8px;display:none">PLAY AGAIN</button>
+    </div>
+  </div>
+
+</div><!-- #app -->
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+// ── State ─────────────────────────────────────────────────────────────────────
+const SHIPS = [
+  { id: 'corsair',     name: 'Corsair',     icon: '🚀', stats: 'Fast · 80HP\nRapid Laser\nSpeed Burst' },
+  { id: 'dreadnought', name: 'Dreadnought', icon: '🛸', stats: 'Slow · 150HP\nHeavy Cannon\nShield Bubble' },
+  { id: 'phantom',     name: 'Phantom',     icon: '👻', stats: 'Med · 90HP\nHoming Missile\nCloak 2s' },
+  { id: 'scavenger',   name: 'Scavenger',   icon: '🔧', stats: 'Med · 100HP\nSpread Shot\nRam Boost' },
+  { id: 'marauder',    name: 'Marauder',    icon: '⚡', stats: 'Med · 110HP\nBeam (hold)\nEMP Pulse' },
+  { id: 'specter',     name: 'Specter',     icon: '💨', stats: 'Fast · 70HP\nMine Dropper\nTeleport Dash' },
+];
+
+let mySlot  = null;
+let myColor = '#fff';
+let shipId  = null;   // auto-assigned on mode selection
+let hp = 100, maxHp = 100, alive = true;
+
+let rotate = 0, thrust = 1, firing = false;
+let betaNeutral  = null;   // captured at calibration
+let gammaNeutral = null;
+let lastRawBeta  = 0;      // always-current sensor readings
+let lastRawGamma = 0;
+
+// ── Socket ────────────────────────────────────────────────────────────────────
+const socket    = io({ secure: true, rejectUnauthorized: false });
+const connBadge = document.getElementById('connBadge');
+const permBtn   = document.getElementById('permBtn');
+
+// ── Wake Lock (keeps screen on) ───────────────────────────────────────────────
+let _wakeLock = null;
+async function _acquireWakeLock() {
+  if (!('wakeLock' in navigator)) return;
+  try {
+    _wakeLock = await navigator.wakeLock.request('screen');
+  } catch (_) {}
+}
+// Re-acquire after the tab is hidden then shown again
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') _acquireWakeLock();
+});
+_acquireWakeLock();
+
+socket.on('connect', () => {
+  connBadge.textContent = '● connected';
+  connBadge.className   = 'ok';
+  document.getElementById('connMsg').textContent = 'Connected! Grant motion access to play.';
+  permBtn.disabled = false;
+});
+
+socket.on('connect_error', () => {
+  connBadge.textContent = '● no server';
+  connBadge.className   = 'err';
+  document.getElementById('connMsg').innerHTML =
+    'Cannot reach game server.<br>Make sure you\'re on the same WiFi.';
+  permBtn.disabled = true;
+});
+
+socket.on('disconnect', () => {
+  connBadge.textContent = '● disconnected';
+  connBadge.className   = 'err';
+});
+
+socket.on('pilot_assigned', ({ slot, color }) => {
+  mySlot  = slot;
+  myColor = color;
+  document.documentElement.style.setProperty('--color', color);
+  document.getElementById('colorBg').style.background = color;
+});
+
+socket.on('game_start', () => {
+  alive = true; hp = 100; maxHp = 100;
+  updateHpBar();
+  document.getElementById('deadOverlay').classList.remove('show');
+  document.getElementById('retryBtn').style.display = 'none';
+  showScreen('screenPlay');
+});
+
+socket.on('game_over', ({ winnerSlot }) => {
+  const BOT_SLOT = 5;
+  let msg, sub;
+  if      (winnerSlot === mySlot)  { msg = 'YOU WIN!';               sub = 'Well played, pirate.'; }
+  else if (winnerSlot === BOT_SLOT){ msg = 'BOT WINS';               sub = 'The machine prevails...'; }
+  else if (winnerSlot < 0)         { msg = 'DRAW!';                  sub = 'No survivors.'; }
+  else                             { msg = `PLAYER ${winnerSlot+1} WINS`; sub = 'Good fight, pirate.'; }
+  document.getElementById('deadMsg').textContent = msg;
+  document.getElementById('deadSub').textContent = sub;
+  document.getElementById('retryBtn').style.display = 'block';
+  document.getElementById('deadOverlay').classList.add('show');
+});
+
+socket.on('lobby_reset', () => {
+  alive = true; hp = 100; maxHp = 100; shipId = null;
+  document.getElementById('deadOverlay').classList.remove('show');
+  document.getElementById('retryBtn').style.display = 'none';
+  buildShipGrid();
+  showScreen('screenShip');
+});
+
+socket.on('hp_update', ({ slot, hp: newHp, maxHp: newMax }) => {
+  if (slot !== mySlot) return;
+  hp = newHp; maxHp = newMax; updateHpBar();
+  if (hp <= 0 && alive) {
+    alive = false;
+    document.getElementById('deadOverlay').classList.add('show');
+  }
+});
+
+// ── Screen 1: Permission ──────────────────────────────────────────────────────
+permBtn.addEventListener('click', async () => {
+  for (const API of ['DeviceOrientationEvent', 'DeviceMotionEvent']) {
+    const Cls = window[API];
+    if (Cls && typeof Cls.requestPermission === 'function') {
+      try { await Cls.requestPermission(); } catch (e) {}
+    }
+  }
+  socket.emit('register', 'pilot');
+  buildShipGrid();
+  showScreen('screenShip');
+});
+
+// ── Screen 2: Ship Select ─────────────────────────────────────────────────────
+function buildShipGrid() {
+  const grid = document.getElementById('shipGrid');
+  grid.innerHTML = '';
+  shipId = null;
+  const btn = document.getElementById('confirmShipBtn');
+  btn.disabled = true; btn.style.opacity = '0.4';
+  SHIPS.forEach(ship => {
+    const card = document.createElement('div');
+    card.className = 'ship-card';
+    card.innerHTML = `<div class="icon">${ship.icon}</div>
+      <div class="name">${ship.name.toUpperCase()}</div>
+      <div class="stats">${ship.stats.replace(/\n/g, '<br>')}</div>`;
+    card.addEventListener('click', () => {
+      document.querySelectorAll('.ship-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      shipId = ship.id;
+      btn.disabled = false; btn.style.opacity = '1';
+    });
+    grid.appendChild(card);
+  });
+}
+
+document.getElementById('confirmShipBtn').addEventListener('click', () => {
+  if (!shipId) return;
+  socket.emit('ship_selected', { shipId });
+  document.getElementById('shipLabel').textContent =
+    `${SHIPS.find(s => s.id === shipId).name.toUpperCase()} · SLOT ${(mySlot ?? 0) + 1}`;
+  startGyroVerify();
+  showScreen('screenGyro');
+});
+
+// ── Screen 3: Gyro verify ─────────────────────────────────────────────────────
+let gyroVerified  = false;
+let gyroMovement  = 0;
+let lastGamma     = null;
+const GYRO_NEEDED = 25;
+
+function startGyroVerify() {
+  gyroVerified = false;
+  gyroMovement = 0;
+  lastGamma    = null;
+  betaNeutral  = null;
+  gammaNeutral = null;
+  document.getElementById('gyroStatus').textContent = 'Move your phone to detect gyro…';
+  document.getElementById('gyroStatus').style.color = '';
+  document.getElementById('readyBtn').disabled = true;
+}
+
+window.addEventListener('deviceorientation', e => {
+  // Always track latest raw sensor values for calibration capture
+  lastRawBeta  = e.beta  ?? 0;
+  lastRawGamma = e.gamma ?? 0;
+
+  // Gyro verify screen
+  if (document.getElementById('screenGyro').classList.contains('active')) {
+    if (e.gamma !== null) {
+      document.getElementById('verifyArrow').style.transform = `rotate(${e.gamma}deg)`;
+    }
+    if (!gyroVerified) {
+      if (e.gamma === null) {
+        document.getElementById('gyroStatus').textContent = 'No gyroscope found on this device.';
+        return;
+      }
+      if (lastGamma !== null) gyroMovement += Math.abs(e.gamma - lastGamma);
+      lastGamma = e.gamma;
+      if (gyroMovement >= GYRO_NEEDED) {
+        gyroVerified = true;
+        const st = document.getElementById('gyroStatus');
+        st.textContent = '✓ Hold still and tap I\'M READY to lock in your neutral position.';
+        st.style.color = '#39ff14';
+        document.getElementById('readyBtn').disabled = false;
+      }
+    }
+  }
+
+  // Playing screen — use calibrated deltas
+  if (document.getElementById('screenPlay').classList.contains('active')) {
+    if (betaNeutral === null || gammaNeutral === null) return;
+    const bd = (e.beta  ?? 0) - betaNeutral;   // beta delta from neutral
+    const gd = (e.gamma ?? 0) - gammaNeutral;   // gamma delta from neutral
+
+    rotate = clamp(-bd / 30, -1, 1);
+
+    // Steer arrow (follows beta delta)
+    document.getElementById('tiltArrow').style.transform = `rotate(${clamp(-bd, -90, 90)}deg)`;
+  }
+});
+
+document.getElementById('readyBtn').addEventListener('click', () => {
+  // Lock in current position as the neutral baseline
+  betaNeutral  = lastRawBeta;
+  gammaNeutral = lastRawGamma;
+  socket.emit('player_ready');
+  showScreen('screenWait');
+});
+
+// ── Fire zone ─────────────────────────────────────────────────────────────────
+const fireZone = document.getElementById('fireZone');
+fireZone.addEventListener('touchstart', e => { e.preventDefault(); firing = true;  fireZone.classList.add('firing'); });
+fireZone.addEventListener('touchend',   e => { e.preventDefault(); firing = false; fireZone.classList.remove('firing'); });
+
+// ── Reverse button ────────────────────────────────────────────────────────────
+const reverseBtn = document.getElementById('reverseBtn');
+reverseBtn.addEventListener('touchstart', e => { e.preventDefault(); thrust = -1; reverseBtn.classList.add('held'); });
+reverseBtn.addEventListener('touchend',   e => { e.preventDefault(); thrust =  1; reverseBtn.classList.remove('held'); });
+reverseBtn.addEventListener('touchcancel',e => { e.preventDefault(); thrust =  1; reverseBtn.classList.remove('held'); });
+
+// ── Burst button ──────────────────────────────────────────────────────────────
+document.getElementById('burstBtn').addEventListener('click', () => {
+  socket.emit('pilot_input', { rotate, thrust, firing, burst: true });
+  flashBurst();
+});
+
+function flashBurst() {
+  const btn = document.getElementById('burstBtn');
+  btn.style.borderColor = myColor;
+  btn.style.color       = myColor;
+  setTimeout(() => { btn.style.borderColor = ''; btn.style.color = ''; }, 500);
+}
+
+// ── Shake → burst ─────────────────────────────────────────────────────────────
+let lastShake = 0;
+window.addEventListener('devicemotion', e => {
+  const a = e.accelerationIncludingGravity;
+  if (!a) return;
+  const mag = Math.hypot(a.x ?? 0, a.y ?? 0, a.z ?? 0);
+  if (mag > 25 && Date.now() - lastShake > 1000) {
+    lastShake = Date.now();
+    socket.emit('pilot_input', { rotate, thrust, firing, burst: true });
+    flashBurst();
+  }
+});
+
+// ── ~60fps input loop ─────────────────────────────────────────────────────────
+setInterval(() => {
+  if (document.getElementById('screenPlay').classList.contains('active') && alive) {
+    socket.volatile.emit('pilot_input', { rotate, thrust, firing, burst: false });
+  }
+}, 16);
+
+// ── Retry ─────────────────────────────────────────────────────────────────────
+document.getElementById('retryBtn').addEventListener('click', () => {
+  alive = true; hp = 100; maxHp = 100; shipId = null;
+  updateHpBar();
+  document.getElementById('deadOverlay').classList.remove('show');
+  document.getElementById('retryBtn').style.display = 'none';
+  buildShipGrid();
+  showScreen('screenShip');
+});
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function updateHpBar() {
+  const pct  = Math.max(0, hp / maxHp * 100);
+  const fill = document.getElementById('hpFill');
+  fill.style.width      = pct + '%';
+  fill.style.background = pct > 50 ? '#39ff14' : pct > 25 ? '#ff9f00' : '#ff3f3f';
+}
+
+function clamp(v, lo, hi) { return Math.min(hi, Math.max(lo, v)); }
+</script>
+</body>
+</html>

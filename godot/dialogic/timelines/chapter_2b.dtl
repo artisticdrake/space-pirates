@@ -1,0 +1,7 @@
+[background arg="res://storyline/Backgrounds/cargo explosion.png" fade="0.0"]
+[EXT. DEEP SPACE - KELLIAN CORRIDOR] SIGMA-9 erupts in a massive chain explosion — data cores detonating one by one, cascading light across the stars.
+join Captain (commanding) 0.5
+Captain (commanding): Target is destroyed. All units — scatter. Go dark. We regroup at Point Helios in two hours.
+leave Captain
+The explosion blooms behind MC and Lyra as their ships peel away in opposite directions.
+[signal arg="chapter_complete"]

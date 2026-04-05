@@ -1,0 +1,30 @@
+[background arg="res://storyline/Backgrounds/3_two_ships.png" fade="0.0"]
+[INT. MC'S COCKPIT] Lyra's ship is locked on. Proximity alarms scream. MC's hands hover over the controls.
+join ARIA (urgent) 0.75
+ARIA (urgent): ADAM. Listen to me. What happened to Lyra, it's an Empire neural intrusion protocol. They embedded it in the explosion's signal burst. She didn't feel it happen.
+leave ARIA
+join MC (alert) 0.25
+MC (alert): Then we run. We get distance, we find a way to reverse it!!!
+leave MC
+join ARIA (urgent) 0.75
+ARIA (urgent): There is no running. The intrusion is active. She will follow. And if the Empire captures her alive — they will pull every rebel contact, every safe route, every name out of her. Thousands of people.
+leave ARIA
+join MC (alert) 0.25
+MC (alert): You're telling me to destroy her ship.
+leave MC
+join ARIA (main) 0.75
+ARIA (main): I'm telling you what the situation is. The choice is yours.
+leave ARIA
+join MC (alert) 0.25
+MC stares at the targeting display. Lyra's ship fills the screen.
+update MC (alert) 0.25
+MC (alert): She's still in there somewhere.
+leave MC
+join ARIA (urgent) 0.75
+ARIA (urgent): Yes. And she would not want to be used as a weapon against everything she fought for.
+leave ARIA
+A long silence. MC's jaw tightens. His hands move to the controls.
+[signal arg="start_pvp"]
+leave MC
+join MC (alert) 0.75
+MC (alert): Lyra ........... that's not you..........

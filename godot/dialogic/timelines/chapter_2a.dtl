@@ -1,0 +1,30 @@
+[background arg="res://storyline/Backgrounds/rebel_base.png" fade="0.0"]
+[INT. REBEL CRUISER - WAR ROOM] The room is dim. Holographic star maps spin above the tactical table.
+join Captain (commanding) 0.5
+Captain (commanding): In eighteen hours, an Empire cargo freighter — designation SIGMA-9 — will pass through the Kellian Corridor. We've confirmed its payload.
+leave Captain
+join Lyra (determined) 0.8
+Lyra (determined): Data?
+leave Lyra
+join Captain (commanding) 0.5
+Captain (commanding): Not just any data. Behavioral prediction matrices. Compiled from years of intercepted human communications, movement logs, purchasing patterns, biometric records. The Empire uses it to model human decision-making — to predict exactly where rebel cells will move before we move there.
+leave Captain
+join MC (alert) 0.2
+MC (alert): They're using our own data against us.
+leave MC
+join Captain (commanding) 0.5
+Captain (commanding): Every message you ever sent. Every route you ever flew. It's all in there, weaponized. If SIGMA-9 reaches the processing station — thousands of rebels will be dead within a month.
+leave Captain
+join Lyra (determined) 0.8
+Lyra (determined): We have to destroy it.
+leave Lyra
+join Captain (commanding) 0.5
+Captain (commanding): You two will intercept. No boarding — too risky. You destroy the ship entirely. Nothing survives. Are we clear?
+leave Captain
+join MC (confident) 0.2
+MC (confident): Clear.
+leave MC
+join Lyra (determined) 0.8
+Lyra (determined): Clear.
+leave Lyra
+[signal arg="start_siege"]

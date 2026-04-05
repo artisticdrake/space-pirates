@@ -1,0 +1,7 @@
+res://scenes/game.tscn
+res://Tests/New_File.tres
+res://dialogic/timelines/chapter_1a.dtl
+res://scripts/game.gd
+res://scripts/mothership.gd
+res://scripts/network_bridge.gd
+res://scripts/ship.gd

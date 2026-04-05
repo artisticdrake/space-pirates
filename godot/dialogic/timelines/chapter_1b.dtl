@@ -1,0 +1,26 @@
+[background arg="res://storyline/Backgrounds/rebel_base.png" fade="0.0"]
+[INT. REBEL CRUISER - COMMAND BRIDGE] MC's ship docks. Smoke still rising from the hull.
+join Captain (commanding) 0.25
+Captain (commanding): You're lucky your thrusters still work. Sit down.
+join MC (alert) 0.75
+MC (alert): I was JUST patching the NAVIGATION system, I didn't—
+leave MC
+join Captain (disappointed) 0.25
+Captain (disappointed): You downloaded unverified code. From an anonymous source. And patched it directly into your ship's core OS.
+update Captain (commanding) 0.25
+Captain (commanding): The Empire plants corrupted packages in open source repositories. They look clean. The community reviews? Fake accounts — all of them. The malware sits dormant until it detects a ship system handshake, then it broadcasts your coordinates. That's how they found you.
+leave Captain
+join MC (calm) 0.75
+MC (calm): So what do I do? Never update anything?
+leave MC
+join Captain (commanding) 0.25
+Captain (commanding): You verify. Every time. Check the contributor history. Cross-reference the checksum hash. If a project is less than thirty days old with no traceable authors — you don't touch it. Not until it's been audited.
+leave Captain
+join MC (calm) 0.75
+MC (calm): Aria tried to warn me.
+leave MC
+join Captain (base) 0.25
+Captain (base): Next time, listen to your AI.
+leave Captain
+She walks away. MC stares at the holographic display — the malware diagram still glowing.
+[signal arg="chapter_complete"]

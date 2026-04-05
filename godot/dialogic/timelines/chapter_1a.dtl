@@ -1,0 +1,48 @@
+[background arg="res://storyline/Backgrounds/1a_b.png" fade="0.0"]
+[YEAR 2573] Deep Space..... Everything is quiet and at a standstill......
+Adam and his AI assistant are lost in the deep space and are looking for a navigation map in a legacy network system called the INTERNET.
+join MC (calm) leftmost
+MC (calm): Come on, come on... there it is.
+leave MC
+join ARIA (main) rightmost
+ARIA (main): You're smiling. That usually means you're about to do something I won't like.
+leave ARIA
+join MC (confident) leftmost
+MC (confident): Relax. It's just a navigation patch. Makes the jump calculations twice as fast.
+leave MC
+join ARIA (main) rightmost
+ARIA (main): Where's it from?
+leave ARIA
+join MC (calm) leftmost
+MC (calm): Some legacy forum. Guy's been posting solid stuff for months here.
+leave MC
+join ARIA (main) rightmost
+ARIA (main): You don't know who he is.
+leave ARIA
+join MC (confident) leftmost
+MC (confident): Nobody knows who anybody is out here. That's kind of the point.
+leave MC
+The loading bar fills. BEEP --- [DOWNLOAD COMPLETE]. Then a flicker.
+join ARIA (glitch) rightmost
+ARIA (glitch): ...ADAM!!
+leave ARIA
+join MC (calm) leftmost
+MC (calm): Hm?
+leave MC
+join ARIA (glitch) rightmost
+ARIA (glitch): Something's WRONG... I can't—DAEJHFKsjabfe
+Her voice warps. The lights stutter. Adam sits up fast.
+leave ARIA
+join MC (alert) leftmost
+MC (alert): Aria? Hey—
+leave MC
+[background arg="res://storyline/Backgrounds/mothership.png" fade="1.0" transition="Push Down"]
+Static. Silence. Then the radar explodes with red dots. One. Five. Twelve. A massive shadow falls across the viewport. An Empire warship.
+join Empire (default) leftmost
+Empire (default): REBEL UNIT!!! Your position has been EXPOSED. Surrender or be destroyed!!
+leave Empire
+join MC (confident) center
+MC (confident): NO, not today.
+update MC (calm) center
+MC (calm): CATCH ME IF YOU CAN!!!
+[signal arg="start_race"]
