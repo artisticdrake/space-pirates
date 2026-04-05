@@ -10,9 +10,10 @@ Space Pirates is a local multiplayer party brawler where every player uses their
 
 The idea came from one simple frustration: **local multiplayer is dying because nobody owns controllers anymore**. Everybody has a phone. Why aren't we using them?
 
-Games like *WarioWare: Smooth Moves* and *Johann Sebastian Joust* proved that motion controls in a party setting are electric — people laugh, people lean, people physically react. I wanted that energy but for a space shooter, and I wanted zero friction to get into it. Scan a QR code, tap a button, you're flying.
+Also, we live in a world where technology moves faster than our ability to understand it. Every day, people download software without thinking twice, share data without knowing its value, and trust systems they've never questioned. And the consequences: breaches, manipulation, loss of privacy, all feel abstract until they happen to you.
+So we asked ourselves: what if learning about those dangers actually felt exciting?
 
-The other inspiration was old-school arcade cabinet energy. A big screen, a crowd, chaotic action. Space Pirates is designed to be set up at a party in under two minutes.
+That's why we built Rogue Space Pirates. It's a space action game where every mission teaches you something real about technology. In one level you're escaping enemy ships after downloading malware from an unverified source, learning about cybersecurity the hard way. In another, you're destroying a cargo ship full of stolen human data, because you understand exactly what that data is being used for. The stakes feel real because the concepts behind them are real.
 
 ---
 
